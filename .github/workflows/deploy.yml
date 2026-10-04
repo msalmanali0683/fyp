@@ -1,0 +1,71 @@
+name: Test & Deploy
+
+# Every push to main runs the test suite. If it passes, the production tree
+# (source + vendor + built assets) is published to the `deploy` branch, which
+# Hostinger watches and mirrors to https://fyp.amsal.online automatically.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, gd, zip, intl, bcmath, pdo_sqlite, sqlite3, fileinfo, curl, xml
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run tests
+        run: php artisan test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, gd, zip, intl, bcmath, pdo_sqlite, sqlite3, fileinfo, curl, xml
+          coverage: none
+
+      - name: Install production PHP dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-progress
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Publish to the deploy branch
+        env:
+          DEPLOY_REMOTE_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          DEPLOY_GIT_NAME: github-actions[bot]
+          DEPLOY_GIT_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: bash deploy/publish.sh
