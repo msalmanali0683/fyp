@@ -1709,10 +1709,13 @@ const supervisorChangeError = ref('')
 const selectedEvaluators = ref([])
 const evaluatorComments = ref('')
 const evaluationQuestions = ref([])
-const evaluatorAnswers = reactive({})
+// These must be refs: EvaluatorAnswerForm emits a fresh object on every edit, and
+// `v-model` on a `const reactive({})` rebinds a plain non-reactive variable, so the form
+// kept spreading a stale object and dropped every answer except the last one edited.
+const evaluatorAnswers = ref({})
 const officeEvaluatorId = ref(null)
 const officeEvaluatorComments = ref('')
-const officeEvaluatorAnswers = reactive({})
+const officeEvaluatorAnswers = ref({})
 const committeeComments = ref('')
 const committeeCommentError = ref('')
 const headComments = ref('')
@@ -2335,8 +2338,8 @@ const loadEvaluationQuestions = async () => {
     evaluationQuestions.value = []
   }
 
-  Object.keys(evaluatorAnswers).forEach((key) => delete evaluatorAnswers[key])
-  Object.keys(officeEvaluatorAnswers).forEach((key) => delete officeEvaluatorAnswers[key])
+  evaluatorAnswers.value = {}
+  officeEvaluatorAnswers.value = {}
 }
 
 const loadEligibleMembersForProject = async () => {
@@ -2978,7 +2981,7 @@ const submitPhaseEvaluatorDecision = async (decision) => {
   if (!phase) return
   evaluatorCommentError.value = ''
   const comments = evaluatorComments.value.trim()
-  const answers = buildAnswersPayload(evaluatorAnswers, evaluatorCommentError)
+  const answers = buildAnswersPayload(evaluatorAnswers.value, evaluatorCommentError)
   if (answers === null) return
   if (!comments) {
     evaluatorCommentError.value = 'Please enter a final comment.'
@@ -2989,7 +2992,7 @@ const submitPhaseEvaluatorDecision = async (decision) => {
     const res = await phaseEvaluatorReview(project.value.id, phase, { decision, comments, answers })
     project.value = res.data
     evaluatorComments.value = ''
-    Object.keys(evaluatorAnswers).forEach((key) => delete evaluatorAnswers[key])
+    evaluatorAnswers.value = {}
   } catch (err) {
     toast.error(formatApiError(err, 'Evaluation failed.'))
   } finally {
@@ -3008,7 +3011,7 @@ const submitPhaseOfficeEvaluatorDecision = async (decision) => {
     return
   }
 
-  const answers = buildAnswersPayload(officeEvaluatorAnswers, officeEvaluatorCommentError)
+  const answers = buildAnswersPayload(officeEvaluatorAnswers.value, officeEvaluatorCommentError)
   if (answers === null) return
 
   if (!comments) {
@@ -3026,7 +3029,7 @@ const submitPhaseOfficeEvaluatorDecision = async (decision) => {
     })
     project.value = res.data
     officeEvaluatorComments.value = ''
-    Object.keys(officeEvaluatorAnswers).forEach((key) => delete officeEvaluatorAnswers[key])
+    officeEvaluatorAnswers.value = {}
     syncOfficeEvaluatorSelection()
   } catch (err) {
     toast.error(formatApiError(err, 'Evaluation failed.'))
@@ -3242,7 +3245,7 @@ const buildAnswersPayload = (answersMap, errorRef) => {
 const submitEvaluatorDecision = async (decision) => {
   evaluatorCommentError.value = ''
   const comments = evaluatorComments.value.trim()
-  const answers = buildAnswersPayload(evaluatorAnswers, evaluatorCommentError)
+  const answers = buildAnswersPayload(evaluatorAnswers.value, evaluatorCommentError)
   if (answers === null) return
 
   if (!comments) {
@@ -3259,7 +3262,7 @@ const submitEvaluatorDecision = async (decision) => {
     })
     project.value = res.data
     evaluatorComments.value = ''
-    Object.keys(evaluatorAnswers).forEach((key) => delete evaluatorAnswers[key])
+    evaluatorAnswers.value = {}
   } catch (err) {
     toast.error(formatApiError(err, 'Review failed.'))
   } finally {
@@ -3276,7 +3279,7 @@ const submitOfficeEvaluatorDecision = async (decision) => {
     return
   }
 
-  const answers = buildAnswersPayload(officeEvaluatorAnswers, officeEvaluatorCommentError)
+  const answers = buildAnswersPayload(officeEvaluatorAnswers.value, officeEvaluatorCommentError)
   if (answers === null) return
 
   if (!comments) {
@@ -3294,7 +3297,7 @@ const submitOfficeEvaluatorDecision = async (decision) => {
     })
     project.value = res.data
     officeEvaluatorComments.value = ''
-    Object.keys(officeEvaluatorAnswers).forEach((key) => delete officeEvaluatorAnswers[key])
+    officeEvaluatorAnswers.value = {}
     syncOfficeEvaluatorSelection()
   } catch (err) {
     toast.error(formatApiError(err, 'Review failed.'))
