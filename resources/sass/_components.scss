@@ -1,0 +1,317 @@
+@import 'variables';
+
+// Cards (Vuexy style)
+.vuexy-card {
+  background: $card-bg;
+  border: none;
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+
+  @media (max-width: #{$breakpoint-md - 1}) {
+    margin-bottom: 1rem;
+  }
+
+  &.vuexy-card--overflow-visible {
+    overflow: visible;
+
+    > .card-body {
+      overflow: visible;
+    }
+  }
+
+  .card-header {
+    background: transparent;
+    border-bottom: 1px solid $sidebar-border;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    @media (max-width: #{$breakpoint-md - 1}) {
+      padding: 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .card-title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $heading-color;
+  }
+
+  .card-subtitle {
+    margin: 0.25rem 0 0;
+    font-size: 0.8125rem;
+    color: $sidebar-text-muted;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+
+    @media (max-width: #{$breakpoint-md - 1}) {
+      padding: 1rem;
+    }
+  }
+}
+
+// Stat cards
+.stat-card {
+  @extend .vuexy-card;
+  margin-bottom: 1.5rem;
+  transition: transform $transition, box-shadow $transition;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.75rem rgba(67, 89, 113, 0.14);
+  }
+
+  .card-body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .stat-content {
+    min-width: 0;
+  }
+
+  .stat-label {
+    font-size: 0.9375rem;
+    color: $sidebar-text-muted;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: $heading-color;
+    line-height: 1.2;
+    margin-bottom: 0.375rem;
+  }
+
+  .stat-change {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &.up { color: $success; }
+    &.down { color: $danger; }
+  }
+
+  .stat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: $border-radius;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    i {
+      font-size: 1.375rem;
+    }
+
+    &.primary { background: rgba($primary, 0.12); color: $primary; }
+    &.success { background: rgba($success, 0.12); color: $success; }
+    &.warning { background: rgba($warning, 0.12); color: $warning; }
+    &.info    { background: rgba($info, 0.12); color: $info; }
+    &.danger  { background: rgba($danger, 0.12); color: $danger; }
+  }
+}
+
+.summary-card {
+  background: $card-bg;
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+  padding: 1.25rem 1.5rem;
+  height: 100%;
+  border: 1px solid transparent;
+  transition: box-shadow $transition;
+
+  &:hover {
+    box-shadow: 0 0.25rem 0.75rem rgba(67, 89, 113, 0.14);
+  }
+
+  .summary-card__label {
+    color: $sidebar-text-muted;
+    font-size: 0.875rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .summary-card__value {
+    font-size: 1.625rem;
+    font-weight: 600;
+    color: $heading-color;
+    line-height: 1.2;
+  }
+}
+
+// Tables
+.table-responsive-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vuexy-table {
+  width: 100%;
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  thead th {
+    background: #fbfbfc;
+    color: $heading-color;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid $sidebar-border;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 0.875rem 1rem;
+    vertical-align: middle;
+    border-top: 1px solid $sidebar-border;
+    color: $body-color;
+    font-size: 0.9375rem;
+  }
+
+  tbody tr:hover {
+    background: rgba(67, 89, 113, 0.02);
+  }
+
+  tbody tr:active {
+    background: rgba($primary, 0.05);
+  }
+
+  .avatar-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .name {
+      font-weight: 600;
+      color: $heading-color;
+    }
+
+    .email {
+      font-size: 0.8125rem;
+      color: $sidebar-text-muted;
+    }
+  }
+}
+
+@media (max-width: #{$breakpoint-md - 1}) {
+  .vuexy-table.mobile-card-view {
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: block;
+      background: $card-bg;
+      border-radius: $border-radius;
+      box-shadow: $card-shadow;
+      margin-bottom: 1rem;
+      padding: 0.5rem 0;
+      border: 1px solid $sidebar-border;
+    }
+
+    tbody td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      border: none;
+
+      &::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: $heading-color;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        margin-right: 1rem;
+      }
+    }
+  }
+}
+
+.chart-container {
+  position: relative;
+  height: 320px;
+
+  @media (max-width: #{$breakpoint-md - 1}) {
+    height: 260px;
+  }
+}
+
+.chart-container-sm {
+  height: 240px;
+
+  @media (max-width: #{$breakpoint-md - 1}) {
+    height: 200px;
+  }
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: $border-radius;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: $sidebar-text-muted;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast,
+    transform $transition-fast,
+    box-shadow $transition-fast;
+
+  &:hover {
+    background: rgba($primary, 0.1);
+    color: $primary;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.danger:hover {
+    background: rgba($danger, 0.1);
+    color: $danger;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: $sidebar-text-muted;
+
+  i {
+    font-size: 2.5rem;
+    color: rgba($primary, 0.35);
+    margin-bottom: 1rem;
+  }
+}

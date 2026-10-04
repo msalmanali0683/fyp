@@ -1,0 +1,1 @@
+import{Q as e}from"./app-CUiVh_QT.js";const i=async(a={})=>{const{data:s}=await e.get("/api/admin/supervisors",{params:a});return s},n=async(a,s={})=>{const{data:t}=await e.get(`/api/admin/supervisors/${a}`,{params:s});return t},o=async(a={})=>{const{data:s}=await e.get("/api/supervisor-change-requests",{params:a});return s};export{n as a,o as b,i as f};

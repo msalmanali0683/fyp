@@ -1,0 +1,1 @@
+const o=(s,r="Request failed.")=>{const e=s?.response?.data;if(!e)return r;if(e.errors&&typeof e.errors=="object"){const t=Object.values(e.errors).flat().filter(Boolean);if(t.length)return t.join(" ")}return e.message||r};export{o as f};
