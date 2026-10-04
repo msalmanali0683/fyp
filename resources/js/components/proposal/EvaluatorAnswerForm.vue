@@ -16,7 +16,7 @@
         style="max-width: 140px"
         :disabled="disabled"
         :value="marksFor(question.id)"
-        @input="updateMarks(question.id, $event.target.value)"
+        @input="updateMarks(question.id, $event.target)"
       />
       <textarea
         class="form-control form-control-sm"
@@ -47,9 +47,9 @@ const emit = defineEmits(['update:modelValue'])
 const marksFor = (questionId) => props.modelValue[questionId]?.marks ?? ''
 const commentFor = (questionId) => props.modelValue[questionId]?.comment ?? ''
 
-const updateMarks = (questionId, rawValue) => {
+const updateMarks = (questionId, inputEl) => {
   const question = props.questions.find((q) => q.id === questionId)
-  let value = rawValue
+  let value = inputEl.value
 
   if (value !== '' && question) {
     const numeric = Number(value)
@@ -57,6 +57,10 @@ const updateMarks = (questionId, rawValue) => {
       value = String(Math.min(Math.max(numeric, 0), question.max_marks))
     }
   }
+
+  // Vue only repaints the box when the stored value changes, so show the clamped
+  // value explicitly (e.g. "100" typed over a max of 10 stays "10" in state).
+  if (inputEl.value !== value) inputEl.value = value
 
   emit('update:modelValue', {
     ...props.modelValue,
