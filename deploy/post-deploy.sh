@@ -17,7 +17,9 @@ NEW="$(cat "$REV_FILE")"
 PHP=/opt/alt/php83/usr/bin/php
 [ -x "$PHP" ] || PHP=php
 
-mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs storage/app/public bootstrap/cache
+# storage/app/public and storage/logs are symlinks into this folder (see deploy/publish.sh).
+mkdir -p "$APP_DIR/../persist/public" "$APP_DIR/../persist/logs"
+mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views bootstrap/cache
 
 # Safety net: keep a copy of .env outside the web root and restore it if a deploy ever removes it.
 if [ ! -f .env ] && [ -f "$ENV_BACKUP" ]; then cp "$ENV_BACKUP" .env; fi

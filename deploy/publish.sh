@@ -53,6 +53,21 @@ EOF
 
 cd "$OUT"
 git add -A
+
+# Hostinger's Git deploy mirrors the branch and deletes everything else in the target
+# folder (only .env is spared). Uploads and logs therefore live outside the web root
+# and are reached through symlinks tracked in the branch. They are written straight
+# into the index so this also works from Windows, where `ln -s` would copy instead.
+PERSIST="${DEPLOY_PERSIST_DIR:-/home/u302563959/domains/fyp.amsal.online/persist}"
+link() {
+  local blob
+  blob="$(printf '%s' "$2" | git hash-object -w --stdin)"
+  git rm -r -q --cached --ignore-unmatch "$1"
+  git update-index --add --cacheinfo "120000,$blob,$1"
+}
+link storage/app/public "$PERSIST/public"
+link storage/logs "$PERSIST/logs"
+
 if git diff --cached --quiet; then
   echo "Nothing changed since the last deploy - skipping."
   exit 0
