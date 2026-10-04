@@ -29,13 +29,15 @@ else
   git init --quiet -b deploy "$OUT"
   git -C "$OUT" remote add origin "$REMOTE_URL"
 fi
+git -C "$OUT" config core.autocrlf false
 
-# Replace the tree with the fresh build (history in .git is kept).
-find "$OUT" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+# Replace the tree with the fresh build (history in .git and the revision marker are kept,
+# so an identical build produces no diff).
+find "$OUT" -mindepth 1 -maxdepth 1 ! -name .git ! -name .deploy-revision -exec rm -rf {} +
 
 cd "$ROOT"
 {
-  git ls-files -z | grep -zvE '^(tests/|\.github/|\.gitattributes$|\.editorconfig$|phpunit\.xml$)' || true
+  git ls-files -z | grep -zvE '^(tests/|\.github/|\.editorconfig$|phpunit\.xml$)' || true
   find vendor public/build -type f -print0
 } | tar --null -T - -cf - | tar -C "$OUT" -xf -
 
