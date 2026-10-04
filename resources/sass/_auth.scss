@@ -1,0 +1,81 @@
+@import 'variables';
+
+.input-group-auth {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-group-auth__icon {
+  position: absolute;
+  left: 0.875rem;
+  z-index: 2;
+  color: $secondary;
+  pointer-events: none;
+}
+
+.input-group-auth__toggle {
+  position: absolute;
+  right: 0.5rem;
+  z-index: 2;
+  border: none;
+  background: transparent;
+  color: $secondary;
+  width: 36px;
+  height: 36px;
+  border-radius: $border-radius;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color $transition, background $transition;
+
+  &:hover {
+    color: $primary;
+    background: rgba($primary, 0.08);
+  }
+}
+
+.auth-form .form-control {
+  padding-left: 2.75rem;
+  padding-right: 2.75rem;
+  height: 44px;
+  border: 1px solid rgba(34, 41, 47, 0.12);
+  border-radius: $border-radius;
+  font-size: 0.9375rem;
+  transition: border-color $transition, box-shadow $transition;
+
+  &:focus {
+    border-color: rgba($primary, 0.5);
+    box-shadow: 0 3px 10px 0 rgba($primary, 0.12);
+  }
+
+  &:disabled {
+    background: #f8f8f8;
+  }
+}
+
+.auth-form .form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $heading-color;
+}
+
+.auth-form .form-check-label {
+  font-size: 0.875rem;
+  color: $body-color;
+}
+
+.auth-form .form-check-input:checked {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+.auth-page__form-panel {
+  transition: box-shadow $transition;
+
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: 0 1rem 2.5rem rgba(67, 89, 113, 0.12);
+    }
+  }
+}

@@ -1,0 +1,44 @@
+$primary: #7367f0;
+$secondary: #a8aaae;
+$success: #28c76f;
+$info: #00cfe8;
+$warning: #ff9f43;
+$danger: #ea5455;
+$dark: #4b4b4b;
+$light: #f8f8f8;
+$body-bg: #f5f5f9;
+$body-color: #697a8d;
+$heading-color: #566a7f;
+$sidebar-width: 260px;
+$sidebar-collapsed-width: 78px;
+$navbar-height: 62px;
+$border-radius: 0.375rem;
+$card-shadow: 0 2px 6px 0 rgba(67, 89, 113, 0.12);
+$card-shadow-hover: 0 0.5rem 1.25rem rgba(67, 89, 113, 0.16);
+$transition: 0.2s ease;
+$transition-fast: 0.15s ease;
+
+// Vuexy light bordered menu
+$sidebar-bg: #fff;
+$sidebar-text: #697a8d;
+$sidebar-text-muted: #a1acb8;
+$sidebar-border: rgba(67, 89, 113, 0.08);
+$sidebar-hover-bg: rgba(67, 89, 113, 0.04);
+$sidebar-active-bg: rgba(115, 103, 240, 0.16);
+$sidebar-active-color: $primary;
+$menu-item-border: rgba(67, 89, 113, 0.12);
+
+$navbar-bg: #fff;
+$card-bg: #fff;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-xxl: 1400px;
+
+$nav-accent-dashboard: $primary;
+$nav-accent-projects: $info;
+$nav-accent-student: #9055fd;
+$nav-accent-supervisors: $info;
+$nav-accent-evaluators: $warning;
+$nav-accent-admin: $primary;

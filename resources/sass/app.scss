@@ -1,0 +1,97 @@
+@import 'variables';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.9375rem;
+  background-color: $body-bg;
+  color: $body-color;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $heading-color;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+
+  &:hover,
+  &:focus {
+    background-color: darken($primary, 6%);
+    border-color: darken($primary, 6%);
+  }
+}
+
+.text-primary { color: $primary !important; }
+.bg-primary { background-color: $primary !important; }
+.bg-light-primary { background-color: rgba($primary, 0.12) !important; color: $primary !important; }
+
+// Bootstrap badges default to white text; ensure light variants stay readable.
+.badge {
+  font-weight: 600;
+}
+
+.badge.bg-light-success,
+.badge.bg-light-warning,
+.badge.bg-light-danger,
+.badge.bg-light-info,
+.badge.bg-light-primary,
+.badge.bg-light-secondary {
+  border: 1px solid transparent;
+}
+
+.badge.bg-light-success { background-color: rgba($success, 0.14) !important; color: darken($success, 12%) !important; }
+.badge.bg-light-warning { background-color: rgba($warning, 0.16) !important; color: darken($warning, 18%) !important; }
+.badge.bg-light-danger  { background-color: rgba($danger, 0.14) !important; color: darken($danger, 10%) !important; }
+.badge.bg-light-info    { background-color: rgba($info, 0.14) !important; color: darken($info, 12%) !important; }
+.badge.bg-light-primary { background-color: rgba($primary, 0.14) !important; color: darken($primary, 8%) !important; }
+.badge.bg-light-secondary {
+  background-color: rgba($heading-color, 0.1) !important;
+  color: $heading-color !important;
+}
+
+// Raw Bootstrap status badges on light cards
+.badge.bg-success,
+.badge.bg-primary,
+.badge.bg-danger,
+.badge.bg-info {
+  color: #fff !important;
+}
+
+.badge.bg-secondary {
+  background-color: #8592a3 !important;
+  color: #fff !important;
+}
+
+.badge.bg-warning {
+  background-color: $warning !important;
+  color: #fff !important;
+}
+
+.badge.bg-warning.text-dark {
+  color: #5e4b00 !important;
+}
+
+@import 'layout';
+@import 'components';
+@import 'interactive';
+@import 'pickers';
+@import 'auth';
