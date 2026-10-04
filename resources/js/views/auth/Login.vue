@@ -70,7 +70,7 @@
         Sign In
       </button>
 
-      <div class="auth-demo-hint">
+      <div v-if="showDemoHint" class="auth-demo-hint">
         <small class="text-muted d-block text-center">
           Demo accounts (password: <strong>password</strong>)
         </small>
@@ -97,6 +97,7 @@ const router = useRouter()
 const route = useRoute()
 const error = ref('')
 const showPassword = ref(false)
+const showDemoHint = import.meta.env.DEV
 
 const form = reactive({
   email: '',

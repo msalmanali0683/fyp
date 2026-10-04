@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Never serve dotfiles (.env, .git, ...) except ACME challenges
+    RewriteRule (^|/)\.(?!well-known/) - [F,L]
+
+    # Uploads from the public disk. symlink() is disabled on this host, so
+    # `storage:link` is unavailable; map /storage/* straight to the disk root.
+    RewriteCond %{REQUEST_URI} !^/storage/app/public/
+    RewriteRule ^storage/(.*)$ storage/app/public/$1 [L]
+
+    # Everything else is served from Laravel's public/ directory
+    RewriteCond %{REQUEST_URI} !^/(public|storage/app/public)/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
